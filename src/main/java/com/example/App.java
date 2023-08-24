@@ -85,5 +85,6 @@ public class App {
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+        // Testando.
     }
 }
