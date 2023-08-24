@@ -70,7 +70,7 @@ public class App {
 
     private void listarEstados(Connection conn) {
         try{
-            System.out.println("Conexão com o banco realizada com sucesso.");
+            System.out.println("Conexão com o banco realizada com sucesso. Andressa alterou aqui para testar o envio das alterações ao github.");
 
             var statement = conn.createStatement();
             var result = statement.executeQuery("select * from estado");
