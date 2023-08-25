@@ -13,43 +13,51 @@ public abstract class AppBd {
     private Connection conn;
 
     public static void main(String[] args) {
-
         new AppBd() {
         };
     }
 
     public AppBd() {
-        listarEstados();
-        carregarDriverJDBC();
-        localizarEstado("TO");
-
-    }
-
-    private void localizarEstado(String uf) {
-    }
-
-    private void listarEstados() {
-
-        Statement statement = null;
         try (var conn = getConnection()) {
+            // carregarDriverJDBC();
+            listarEstados(conn);
+            localizarEstado(conn, "PR");
+        } catch (SQLException e) {
+            System.err.println("Não foi possível conectar ao banco de dados." + e.getMessage());
+        }
+    }
+
+    private void localizarEstado(Connection conn, String uf) {
+        try {
+            // var sql = "select * from estado where uf = '" + uf + "'"; // sucessível a SQL Injection
+            var sql = "select * from estado where uf = ?";
+            var statement = conn.prepareStatement(sql);
+            System.out.println(sql);
+            statement.setString(1, uf);
+            var result = statement.executeQuery();
+            if(result.next()){
+                System.out.printf("Id: %d, Nome: %s, UF: %s\n", result.getInt("id"), result.getString("nome"), result.getString("uf"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao exercutar consulta SQL: " + e.getMessage());
+        }
+    }
+
+    private void listarEstados(Connection conn) {
+        try {
             System.out.println("Conexão com o banco realizada com sucesso.");
 
-            statement = conn.createStatement();
+            var statement = conn.createStatement();
             var result = statement.executeQuery("select * from estado");
 
             while (result.next()) {
                 System.out.printf("Id: %d Nome: %s UF: %s\n", result.getInt("id"), result.getString("nome"),
                         result.getString("uf"));
             }
-
         } catch (SQLException e) {
-            if (statement == null) {
-                System.err.println("Não foi possível conectar ao banco de dados." + e.getMessage());
-            } else {
-                System.err.println("Não foi possível executar a consulta ao banco de dados." + e.getMessage());
-
-            }
+            System.err.println("Não foi possível conectar ao banco de dados." + e.getMessage());
         }
+        System.out.println();
     }
 
     private Connection getConnection() throws SQLException {
