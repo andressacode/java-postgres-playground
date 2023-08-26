@@ -22,6 +22,10 @@ public class Aluno {
         return matricula;
     }
 
+    public void setMatricula(int matricula){
+        this.matricula = matricula;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -56,6 +60,17 @@ public class Aluno {
     
     public double calculaMedia(){
         return (nota1 + nota2 + nota3) / 3;
+    }
+
+    public String toString(){
+        return "Nome: " 
+        + nome
+        + ", Nota 1: "
+        + nota1
+        + ", Nota 2: "
+        + nota2
+        + ", Nota 3: "
+        + nota3;
     }
     
 }

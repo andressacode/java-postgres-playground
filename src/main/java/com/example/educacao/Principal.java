@@ -13,10 +13,20 @@ public class Principal {
         try (var conn = ConnectionManager.getConnection()) {
             AlunoDAO alunoDao = new AlunoDAO(conn);
             Aluno aluno = new Aluno();
-            aluno.setNome("Rogério");
-            alunoDao.inserirAluno(aluno);
-            alunoDao.inserirNota(1, 68, 1);
-            System.out.println("Aluno inserido com sucesso!");
+            aluno.setMatricula(1);
+
+            System.out.println("matricula " + aluno.getMatricula());
+            double nota = 10.0;
+            alunoDao.inserirNota(2, nota, aluno.getMatricula());
+
+            /* CHAMADA PARA LISTAR ALUNOS */
+            var listaAlunos = alunoDao.listarAlunos();
+            for(Aluno aluno2 : listaAlunos){
+                System.out.println(aluno2);
+            }
+
+            /* FIM DA CHAMADA PARA LISTAR ALUNOS */
+
         } catch (SQLException e) {
             System.err.println("Não foi possível conectar ao BD");
         } catch (RuntimeException e) {
