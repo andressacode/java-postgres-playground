@@ -22,12 +22,36 @@ public abstract class AppBd {
             // carregarDriverJDBC();
             listarEstados(conn);
             //localizarEstado(conn, "PR");
+            
+            Marca marca = new Marca();
+            marca.setId(1L);
+            
+            Produto produto = new Produto();
+            produto.setMarca(marca);
+            produto.setNome("Produto nosso teste");
+            produto.setValor(120.00);
+            inserirProduto(conn, produto);
             listarDadosTabela(conn, "produto");
+
+
         } catch (SQLException e) {
             System.err.println("Não foi possível conectar ao banco de dados." + e.getMessage());
         }
     }
 
+    // INSERIR PRODUTOS
+    private void inserirProduto(Connection conn, Produto produto) {
+        try {
+            String sql = "insert into produto (nome, marca_id, valor) values(?, ?, ?)";
+            var statement = conn.prepareStatement(sql);
+            statement.setString(1, produto.getNome());
+            statement.setLong(2, produto.getMarca().getId());
+            statement.setDouble(3, produto.getValor());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.printf("Não foi possível inserir dados na tabela. ", e.getMessage());
+        }
+    }
 
     //LISTAR DADOS DE QUALQUER TABELA
     private void listarDadosTabela(Connection conn, String tabela) {
