@@ -8,10 +8,9 @@ import com.example.model.Produto;
 public class ProdutoDAO {
 
     private Connection conn;
-
     Produto produto = new Produto();
 
-    public ProdutoDAO(Connection conn){
+    public ProdutoDAO(Connection conn) {
         this.conn = conn;
     }
 
@@ -45,6 +44,20 @@ public class ProdutoDAO {
         }
     }
 
+    // LISTAR TODOS OS PRODUTOS DA TABELA
+    public void listarProdutos() {
+        try {
+            var statement = conn.createStatement();
+            var result = statement.executeQuery("select * from produto");
+
+            while (result.next()) {
+                System.out.printf("Id: %d, Nome: %s", result.getInt("id"), result.getString("nome"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Não foi possível executar consulta SQL. " + e.getMessage());
+        }
+    }
+
     // EDITAR PRODUTOS
     public void editarProduto(Produto produto) {
         String sql = "update produto set nome = ? , marca_id = ?, valor = ? where id = ?";
@@ -60,6 +73,19 @@ public class ProdutoDAO {
         }
     }
 
-
-    
+    // BUSCAR PRODUTO POR ID
+    public void localizarProdutoPorId(int id) {
+        var sql = "select * from produto where id = ?";
+        try {
+            var statement = conn.prepareStatement(sql);
+            statement.setLong(1, id);
+            var result = statement.executeQuery();
+            if (result.next()) {
+                System.out.println("Trazendo produto por ID.....");
+                System.out.printf("Id: %d, Nome: %s", result.getInt("id"), result.getString("nome") );
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar produto por id. " + e.getMessage());
+        }
+    }
 }

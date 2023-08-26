@@ -7,7 +7,7 @@ public class Estado {
     private String uf;
     private RegiaoGeografica regiao;
     private int areaKm2;
-    private int população;
+    private int populacao;
 
     public Estado(){}
 
@@ -51,12 +51,12 @@ public class Estado {
         this.areaKm2 = areaKm2;
     }
 
-    public int getPopulação() {
-        return população;
+    public int getPopulacao() {
+        return populacao;
     }
 
-    public void setPopulação(int população) {
-        this.população = população;
+    public void setPopulacao(int populacao) {
+        this.populacao = populacao;
     }
 
     
