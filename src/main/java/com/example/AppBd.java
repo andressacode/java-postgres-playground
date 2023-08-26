@@ -20,29 +20,47 @@ public abstract class AppBd {
     public AppBd() {
         try (var conn = getConnection()) {
             // carregarDriverJDBC();
-            listarEstados(conn);
-            //localizarEstado(conn, "PR");
-            
+            // listarEstados(conn);
+            // localizarEstado(conn, "PR");
+
             Marca marca = new Marca();
             marca.setId(1L);
-            
+
             Produto produto = new Produto();
             produto.setMarca(marca);
-            produto.setNome("Produto nosso teste");
-            produto.setValor(120.00);
-            inserirProduto(conn, produto);
+            produto.setNome("Produto novo");
+            produto.setValor(95.00);
+            // inserirProduto(conn, produto);
+            produto.setId(200L);
+            editarProduto(conn, produto);
+            //excluirProduto(conn, 200);
             listarDadosTabela(conn, "produto");
-
 
         } catch (SQLException e) {
             System.err.println("Não foi possível conectar ao banco de dados." + e.getMessage());
         }
     }
 
+    // EXCLUIR PRODUTOS
+    private void excluirProduto(Connection conn, int id) {
+        var sql = "delete from produto where id = ?";
+        try {
+            var statement = conn.prepareStatement(sql);
+            statement.setLong(1, id);
+            if (statement.executeUpdate() == 1) {
+                System.out.println("Produto excluído com sucesso. ");
+            } else {
+                System.out.println("O produto não foi localizado. ");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao excluir dado da tabela. " + e.getMessage());
+        }
+    }
+
     // INSERIR PRODUTOS
     private void inserirProduto(Connection conn, Produto produto) {
+        String sql = "insert into produto (nome, marca_id, valor) values(?, ?, ?)";
         try {
-            String sql = "insert into produto (nome, marca_id, valor) values(?, ?, ?)";
             var statement = conn.prepareStatement(sql);
             statement.setString(1, produto.getNome());
             statement.setLong(2, produto.getMarca().getId());
@@ -53,8 +71,9 @@ public abstract class AppBd {
         }
     }
 
-    //LISTAR DADOS DE QUALQUER TABELA
+    // LISTAR DADOS DE QUALQUER TABELA
     private void listarDadosTabela(Connection conn, String tabela) {
+
         var sql = "select * from " + tabela;
         // System.out.println(sql);
         try {
@@ -69,27 +88,44 @@ public abstract class AppBd {
             }
             System.out.println();
 
-            while(result.next()){
+            while (result.next()) {
                 for (int i = 1; i <= cols; i++) {
                     System.out.printf("%-25s | ", result.getString(i));
                 }
                 System.out.println();
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao trazer dados da tabela. " +e.getMessage());
+            System.err.println("Erro ao trazer dados da tabela. " + e.getMessage());
+        }
+    }
+
+    // EDITAR PRODUTOS
+    private void editarProduto(Connection conn, Produto produto) {
+        String sql = "update produto set nome = ? , marca_id = ?, valor = ? where id = ?";
+        try {
+            var statement = conn.prepareStatement(sql);
+            statement.setString(1, produto.getNome());
+            statement.setLong(2, produto.getMarca().getId());
+            statement.setDouble(3, produto.getValor());
+            statement.setLong(4, produto.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.printf("Não foi possível alterar os dados na tabela. ", e.getMessage());
         }
     }
 
     private void localizarEstado(Connection conn, String uf) {
         try {
-            // var sql = "select * from estado where uf = '" + uf + "'"; // sucessível a SQL Injection
+            // var sql = "select * from estado where uf = '" + uf + "'"; // sucessível a SQL
+            // Injection
             var sql = "select * from estado where uf = ?";
             var statement = conn.prepareStatement(sql);
             System.out.println(sql);
             statement.setString(1, uf);
             var result = statement.executeQuery();
-            if(result.next()){
-                System.out.printf("Id: %d, Nome: %s, UF: %s\n", result.getInt("id"), result.getString("nome"), result.getString("uf"));
+            if (result.next()) {
+                System.out.printf("Id: %d, Nome: %s, UF: %s\n", result.getInt("id"), result.getString("nome"),
+                        result.getString("uf"));
             }
             System.out.println();
         } catch (SQLException e) {
