@@ -5,11 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.example.dao.ConnectionManager;
+import com.example.dao.EstadoDAO;
+import com.example.model.Marca;
+import com.example.model.Produto;
+
 public abstract class AppBd {
 
-    private static final String PASSWORD = "";
-    private static final String USERNAME = "gitpod";
-    private static final String JDBC_URL = "jdbc:postgresql://localhost/postgres";
     private Connection conn;
 
     public static void main(String[] args) {
@@ -18,10 +20,12 @@ public abstract class AppBd {
     }
 
     public AppBd() {
-        try (var conn = getConnection()) {
-            // carregarDriverJDBC();
-            // listarEstados(conn);
-            // localizarEstado(conn, "PR");
+        try (var conn = ConnectionManager.getConnection()) {
+
+            EstadoDAO estadoDAO = new EstadoDAO(conn);
+
+            estadoDAO.listarEstados();
+            estadoDAO.localizarEstado("PR");
 
             Marca marca = new Marca();
             marca.setId(1L);
@@ -33,7 +37,7 @@ public abstract class AppBd {
             // inserirProduto(conn, produto);
             produto.setId(200L);
             editarProduto(conn, produto);
-            //excluirProduto(conn, 200);
+            // excluirProduto(conn, 200);
             listarDadosTabela(conn, "produto");
 
         } catch (SQLException e) {
@@ -112,47 +116,6 @@ public abstract class AppBd {
         } catch (SQLException e) {
             System.err.printf("Não foi possível alterar os dados na tabela. ", e.getMessage());
         }
-    }
-
-    private void localizarEstado(Connection conn, String uf) {
-        try {
-            // var sql = "select * from estado where uf = '" + uf + "'"; // sucessível a SQL
-            // Injection
-            var sql = "select * from estado where uf = ?";
-            var statement = conn.prepareStatement(sql);
-            System.out.println(sql);
-            statement.setString(1, uf);
-            var result = statement.executeQuery();
-            if (result.next()) {
-                System.out.printf("Id: %d, Nome: %s, UF: %s\n", result.getInt("id"), result.getString("nome"),
-                        result.getString("uf"));
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            System.out.println("Erro ao exercutar consulta SQL: " + e.getMessage());
-        }
-    }
-
-    // LISTAR ESTADOS
-    private void listarEstados(Connection conn) {
-        try {
-            System.out.println("Conexão com o banco realizada com sucesso.");
-
-            var statement = conn.createStatement();
-            var result = statement.executeQuery("select * from estado");
-
-            while (result.next()) {
-                System.out.printf("Id: %d Nome: %s UF: %s\n", result.getInt("id"), result.getString("nome"),
-                        result.getString("uf"));
-            }
-        } catch (SQLException e) {
-            System.err.println("Não foi possível conectar ao banco de dados." + e.getMessage());
-        }
-        System.out.println();
-    }
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
     }
 
     private void carregarDriverJDBC() {
