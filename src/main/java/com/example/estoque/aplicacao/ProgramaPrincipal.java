@@ -55,14 +55,7 @@ public class ProgramaPrincipal {
                     break;
 
                 case 5:
-                    System.out.println("Informe o ID do produto que deseja remover: ");
-                    int idRemover = sc.nextInt();
-                    (Produto prod : lista){
-                        if(prod.getId() == idRemover){
-                            lista.remove(idRemover);
-                        }
-                    }
-                    System.out.println("Produto removido com sucesso!");
+                    produtoDAO.removerProduto(lista, sc);
                     break;
                 case 6:
                     produtoDAO.valorTotalEmEstoque(lista);
@@ -78,8 +71,6 @@ public class ProgramaPrincipal {
                     break;
             }
         }
-
         sc.close();
     }
-
 }

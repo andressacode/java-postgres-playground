@@ -70,6 +70,7 @@ public class ProdutoDAO {
         for (Produto prod : lista) {
             if (prod.getId() == idBusca) {
                 System.out.print("Novo nome: ");
+                sc.nextLine();
                 prod.setNome(sc.nextLine());
                 System.out.print("Nova descrição: ");
                 prod.setDescricao(sc.nextLine());
@@ -80,5 +81,16 @@ public class ProdutoDAO {
                 System.out.println("Não existe produto cadastrado para o ID informado. ");
             }
         }
+    }
+
+    public void removerProduto(List<Produto> lista, Scanner sc) {
+        System.out.println("Informe ID do produto que deseja remover: ");
+        int idRemover = sc.nextInt();
+        for (Produto prod : lista) {
+            if (prod.getId() == idRemover) {
+                lista.remove(prod.getId() - 1);
+            }
+        }
+        System.out.println("Produto removido com sucesso!");
     }
 }
