@@ -2,6 +2,8 @@ package com.example.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.example.model.Estado;
 
@@ -33,9 +35,9 @@ public class EstadoDAO {
         }
     }
 
-    //CREATE
-    public void inserirEstado(Estado estado){
-        try{
+    // CREATE
+    public void inserirEstado(Estado estado) {
+        try {
             String sql = "insert into estado (nome, uf, regiao, areaKm2, populacao) values (?, ?, ?, ?, ?)";
             var statement = conn.prepareStatement(sql);
             statement.setString(1, estado.getNome());
@@ -44,35 +46,24 @@ public class EstadoDAO {
             statement.setInt(4, estado.getAreaKm2());
             statement.setInt(5, estado.getPopulacao());
             statement.executeUpdate();
-        } catch(SQLException e){
-            System.out.println("Não foi possível inserir estado no banco. " +e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Não foi possível inserir estado no banco. " + e.getMessage());
         }
     }
-
-    
-
-    //READ
-
-    //UPDATE
-
-    //DELETE
 
     // LISTAR ESTADOS
-    public void listarEstados() {
-        try {
-            System.out.println("Conexão com o banco realizada com sucesso.");
-
+    public List<Estado> listarEstados() throws SQLException {
+        List<Estado> lista = new LinkedList<>();
             var statement = conn.createStatement();
             var result = statement.executeQuery("select * from estado");
-
             while (result.next()) {
-                System.out.printf("Id: %d Nome: %s UF: %s\n", result.getInt("id"), result.getString("nome"),
-                        result.getString("uf"));
+                var estado = new Estado();
+                estado.setId(result.getLong("id"));
+                estado.setNome(result.getString("nome"));
+                estado.setUf(result.getString("uf"));
+                lista.add(estado);
             }
-        } catch (SQLException e) {
-            System.err.println("Não foi possível conectar ao banco de dados." + e.getMessage());
-        }
         System.out.println();
+        return lista;
     }
-
 }

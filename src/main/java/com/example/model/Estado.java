@@ -59,6 +59,18 @@ public class Estado {
         this.populacao = populacao;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return 
+        "Nome do estado: "
+        + nome 
+        + ", uf=" 
+        + uf 
+        + ", regiao=" 
+        + regiao 
+        + ", areaKm2=" 
+        + areaKm2
+        + ", populacao=" 
+        + populacao + "]";
+    }
 }

@@ -26,7 +26,11 @@ public abstract class AppBd {
             ProdutoDAO produtoDAO = new ProdutoDAO(conn);
             DAO daoGenerico = new DAO(conn);
 
-            // estadoDAO.listarEstados();
+            var listaEstados = estadoDAO.listarEstados();
+            for (Estado estado : listaEstados) {
+                System.out.println(estado);
+            }
+
             // estadoDAO.localizarEstado("PR");
 
             Marca marca = new Marca();
@@ -38,17 +42,16 @@ public abstract class AppBd {
             // produto.setNome("Produto novo");
             // produto.setValor(95.00);
             // produto.setId(200L);
+            // RegiaoGeografica regiao = new RegiaoGeografica();
+            // regiao.setId(1L);
+            // regiao.setNome("Região de teste");
             
-            RegiaoGeografica regiao = new RegiaoGeografica();
-            regiao.setId(1L);
-            regiao.setNome("Região de teste");
-            
-            Estado estado = new Estado();
-            estado.setNome("Uirapuru");
-            estado.setUf("Seresteiro");
-            estado.setAreaKm2(250);
-            estado.setPopulacao(450);
-            estadoDAO.inserirEstado(estado);
+            // Estado estado = new Estado();
+            // estado.setNome("Uirapuru");
+            // estado.setUf("Seresteiro");
+            // estado.setAreaKm2(250);
+            // estado.setPopulacao(450);
+            // estadoDAO.inserirEstado(estado);
 
             //produtoDAO.localizarProdutoPorId(190);
 
