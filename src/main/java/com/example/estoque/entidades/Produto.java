@@ -8,7 +8,8 @@ public class Produto {
     private Double preco;
     private Integer quantidade;
 
-    public Produto(){}
+    public Produto() {
+    }
 
     public Produto(Integer id, String nome, String descricao, Double preco, Integer quantidade) {
         this.id = id;
@@ -53,20 +54,32 @@ public class Produto {
         this.preco = preco;
     }
 
-    public double valorTotal(){
+    public double valorTotal() {
         return quantidade * preco;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 
     @Override
     public String toString() {
-        return "ID: " 
-            + id 
-            + ", Nome: "
-            + nome 
-            + ", Descricao: "
-            + descricao 
-            + ", preco: " 
-            + String.format("%.2f", preco)
-            + ", Quantidade: " + quantidade;
-    }    
+        return "ID: "
+                + id
+                + ", Nome: "
+                + nome
+                + ", Descricao: "
+                + descricao
+                + ", preco: "
+                + String.format("%.2f", preco)
+                + ", Quantidade: " + quantidade;
+    }
 }

@@ -54,6 +54,16 @@ public class ProgramaPrincipal {
                     produtoDAO.editarProduto(lista, sc);
                     break;
 
+                case 5:
+                    System.out.println("Informe o ID do produto que deseja remover: ");
+                    int idRemover = sc.nextInt();
+                    (Produto prod : lista){
+                        if(prod.getId() == idRemover){
+                            lista.remove(idRemover);
+                        }
+                    }
+                    System.out.println("Produto removido com sucesso!");
+                    break;
                 case 6:
                     produtoDAO.valorTotalEmEstoque(lista);
                     break;
