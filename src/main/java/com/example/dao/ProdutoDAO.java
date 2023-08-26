@@ -5,13 +5,12 @@ import java.sql.SQLException;
 
 import com.example.model.Produto;
 
-public class ProdutoDAO {
+public class ProdutoDAO extends DAO {
 
-    private Connection conn;
     Produto produto = new Produto();
 
     public ProdutoDAO(Connection conn) {
-        this.conn = conn;
+        super(conn);
     }
 
     // EXCLUIR PRODUTOS
@@ -82,7 +81,7 @@ public class ProdutoDAO {
             var result = statement.executeQuery();
             if (result.next()) {
                 System.out.println("Trazendo produto por ID.....");
-                System.out.printf("Id: %d, Nome: %s", result.getInt("id"), result.getString("nome") );
+                System.out.printf("Id: %d, Nome: %s", result.getInt("id"), result.getString("nome"));
             }
         } catch (SQLException e) {
             System.out.println("Erro ao buscar produto por id. " + e.getMessage());

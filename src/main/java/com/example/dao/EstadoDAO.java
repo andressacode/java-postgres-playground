@@ -7,12 +7,11 @@ import java.util.List;
 
 import com.example.model.Estado;
 
-public class EstadoDAO {
+public class EstadoDAO extends DAO{
 
-    private Connection conn;
 
     public EstadoDAO(Connection conn) {
-        this.conn = conn;
+        super(conn);
     }
 
     // LOCALIZAR ESTADO COM BASE NA UF INSERIDA

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class DAO {
 
-    private Connection conn;
+    protected Connection conn;
 
     public DAO(Connection conn){
         this.conn = conn;
