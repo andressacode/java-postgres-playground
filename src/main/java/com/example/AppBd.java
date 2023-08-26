@@ -9,7 +9,6 @@ import com.example.dao.EstadoDAO;
 import com.example.dao.ProdutoDAO;
 import com.example.model.Estado;
 import com.example.model.Marca;
-import com.example.model.Produto;
 import com.example.model.RegiaoGeografica;
 
 public abstract class AppBd {
@@ -17,8 +16,7 @@ public abstract class AppBd {
     private Connection conn;
 
     public static void main(String[] args) {
-        new AppBd() {
-        };
+        new AppBd(){};
     }
 
     public AppBd() {
@@ -34,14 +32,16 @@ public abstract class AppBd {
             Marca marca = new Marca();
             marca.setId(1L);
 
+            
+            // Produto produto = new Produto();
+            // produto.setMarca(marca);
+            // produto.setNome("Produto novo");
+            // produto.setValor(95.00);
+            // produto.setId(200L);
+            
             RegiaoGeografica regiao = new RegiaoGeografica();
+            regiao.setId(1L);
             regiao.setNome("Região de teste");
-
-            Produto produto = new Produto();
-            produto.setMarca(marca);
-            produto.setNome("Produto novo");
-            produto.setValor(95.00);
-            produto.setId(200L);
             
             Estado estado = new Estado();
             estado.setNome("Uirapuru");

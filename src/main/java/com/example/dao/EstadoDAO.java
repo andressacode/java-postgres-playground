@@ -43,33 +43,13 @@ public class EstadoDAO {
             statement.setString(3, estado.getRegiao().getNome());
             statement.setInt(4, estado.getAreaKm2());
             statement.setInt(5, estado.getPopulacao());
-
+            statement.executeUpdate();
         } catch(SQLException e){
             System.out.println("Não foi possível inserir estado no banco. " +e.getMessage());
         }
     }
 
-    /*
-    private Long id;
-    private String nome;
-    private String uf;
-    private RegiaoGeografica regiao;
-    private int areaKm2;
-    private int população;
-     * // INSERIR PRODUTOS
-    public void inserirProduto(Produto produto) {
-        String sql = "insert into produto (nome, marca_id, valor) values(?, ?, ?)";
-        try {
-            var statement = conn.prepareStatement(sql);
-            statement.setString(1, produto.getNome());
-            statement.setLong(2, produto.getMarca().getId());
-            statement.setDouble(3, produto.getValor());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.printf("Não foi possível inserir dados na tabela. ", e.getMessage());
-        }
-    }
-     */
+    
 
     //READ
 
